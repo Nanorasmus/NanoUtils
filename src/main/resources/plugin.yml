@@ -1,0 +1,4 @@
+name: NanoUtils
+version: '${project.version}'
+main: me.nanorasmus.nanoutils.Main
+api-version: '1.20'
