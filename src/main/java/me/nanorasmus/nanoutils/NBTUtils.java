@@ -8,6 +8,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.persistence.PersistentDataType;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class NBTUtils {
@@ -72,6 +73,7 @@ public class NBTUtils {
         return entity;
     }
 
+    @Nullable
     public static String getStringFromItemStack(String key, ItemStack itemStack) {
         NamespacedKey namespacedKey = new NamespacedKey(Main.plugin, "Nano-" + key);
 
@@ -82,6 +84,7 @@ public class NBTUtils {
         return meta.getPersistentDataContainer().get(namespacedKey, PersistentDataType.STRING);
     }
 
+    @Nullable
     public static Double getDoubleFromItemStack(String key, ItemStack itemStack) {
         NamespacedKey namespacedKey = new NamespacedKey(Main.plugin, "Nano-" + key);
 
@@ -92,6 +95,7 @@ public class NBTUtils {
         return meta.getPersistentDataContainer().get(namespacedKey, PersistentDataType.DOUBLE);
     }
 
+    @Nullable
     public static Integer getIntFromItemStack(String key, ItemStack itemStack) {
         NamespacedKey namespacedKey = new NamespacedKey(Main.plugin, "Nano-" + key);
 
@@ -102,6 +106,7 @@ public class NBTUtils {
         return meta.getPersistentDataContainer().get(namespacedKey, PersistentDataType.INTEGER);
     }
 
+    @Nullable
     public static int[] getIntArrayFromItemStack(String key, ItemStack itemStack) {
         NamespacedKey namespacedKey = new NamespacedKey(Main.plugin, "Nano-" + key);
 

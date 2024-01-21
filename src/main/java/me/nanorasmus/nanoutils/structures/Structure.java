@@ -1,5 +1,6 @@
 package me.nanorasmus.nanoutils.structures;
 
+import me.nanorasmus.nanoutils.Main;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -16,8 +17,12 @@ public class Structure {
     public Structure() {
 
     }
+    public Structure(Location origin, Location loc1, Location loc2, boolean saveAir) {
+        if (loc1.getWorld() != origin.getWorld() || loc2.getWorld() != origin.getWorld()) {
+            Main.plugin.getLogger().info("Attempted to make a structure split across dimensions! (Returned null)");
+            return;
+        }
 
-    public Structure(Location anchor, Location loc1, Location loc2, boolean saveAir) {
         int x1 = loc1.getBlockX();
         int y1 = loc1.getBlockY();
         int z1 = loc1.getBlockZ();
@@ -46,7 +51,7 @@ public class Structure {
         for (int x = x1; x <= x2; x++) {
             for (int y = y1; y <= y2; y++) {
                 for (int z = z1; z <= z2; z++) {
-                    Block block = anchor.getWorld().getBlockAt(x, y, z);
+                    Block block = origin.getWorld().getBlockAt(x, y, z);
                     if (!saveAir && block.getType() == Material.AIR) {
                         continue;
                     }
@@ -59,7 +64,7 @@ public class Structure {
                         Rotatable rotatable = (Rotatable) block.getBlockData();
                         rotation = rotatable.getRotation();
                     }
-                    blocks.add(new SavedBlock(x - anchor.getBlockX(), y - anchor.getBlockY(), z - anchor.getBlockZ(), block.getType(), rotation));
+                    blocks.add(new SavedBlock(x - origin.getBlockX(), y - origin.getBlockY(), z - origin.getBlockZ(), block.getType(), rotation));
                 }
             }
         }
