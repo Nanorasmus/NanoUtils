@@ -15,13 +15,13 @@ import java.util.List;
 public class FileUtils {
     public static Gson gson;
 
-    static String folderPath;
+    public static String folderPath;
     static File folder;
 
     public static void Init() {
         gson = new GsonBuilder().setPrettyPrinting().create();
 
-        folderPath = Main.plugin.getDataFolder().getParentFile().getAbsolutePath() + "/NanoCraft/";
+        folderPath = Main.plugin.getDataFolder().getParentFile().getAbsolutePath() + "/Nano/";
         folder = new File(folderPath);
         boolean dirMade = folder.mkdirs();
     }
