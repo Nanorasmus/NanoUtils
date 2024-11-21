@@ -121,7 +121,7 @@ public class NBTUtils {
     public static Object getFromEntity(String key, Entity entity) {
         List<MetadataValue> value = entity.getMetadata("Nano-" + key);
 
-        if (value.isEmpty()) return "null";
+        if (value.isEmpty()) return null;
 
         return value.get(0).value();
     }

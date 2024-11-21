@@ -116,7 +116,7 @@ public class Structure {
     }
 
     /// Compares 2 structures and returns whether they are equal or not
-    public static boolean Equals(Structure a, Structure b) {
+    public static boolean equals(Structure a, Structure b) {
         return a.containsAll(b) && b.containsAll(a);
     }
 }
