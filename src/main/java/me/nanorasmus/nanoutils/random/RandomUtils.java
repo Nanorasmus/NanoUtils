@@ -1,4 +1,4 @@
-package me.nanorasmus.nanoutils;
+package me.nanorasmus.nanoutils.random;
 
 public class RandomUtils {
     public static int getRandomInt(int min, int max) {

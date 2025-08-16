@@ -1,8 +1,8 @@
 package me.nanorasmus.nanoutils.temp;
 
 import me.nanorasmus.nanoutils.Main;
-import me.nanorasmus.nanoutils.NBTUtils;
 import me.nanorasmus.nanoutils.NumberUtils;
+import me.nanorasmus.nanoutils.data.nbt.ItemStackNBT;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -42,9 +42,9 @@ public class TPScroll implements Listener {
             // Create TP Scroll
             inHand.setType(Material.FLOWER_BANNER_PATTERN);
 
-            NBTUtils.saveToItemStack("tp-dest-x", Double.parseDouble(nameChunks[1]), inHand);
-            NBTUtils.saveToItemStack("tp-dest-y", Double.parseDouble(nameChunks[2]), inHand);
-            NBTUtils.saveToItemStack("tp-dest-z", Double.parseDouble(nameChunks[3]), inHand);
+            ItemStackNBT.saveToItemStack("tp-dest-x", Double.parseDouble(nameChunks[1]), inHand);
+            ItemStackNBT.saveToItemStack("tp-dest-y", Double.parseDouble(nameChunks[2]), inHand);
+            ItemStackNBT.saveToItemStack("tp-dest-z", Double.parseDouble(nameChunks[3]), inHand);
 
             ItemMeta scrollMeta = inHand.getItemMeta();
             scrollMeta.setDisplayName("§bTeleport scroll (" + nameChunks[1] + ", " + nameChunks[2] + ", " + nameChunks[3] + ")");
@@ -57,9 +57,9 @@ public class TPScroll implements Listener {
                 return;
             }
 
-            Double x = NBTUtils.getDoubleFromItemStack("tp-dest-x", inHand);
-            Double y = NBTUtils.getDoubleFromItemStack("tp-dest-y", inHand);
-            Double z = NBTUtils.getDoubleFromItemStack("tp-dest-z", inHand);
+            Double x = ItemStackNBT.getDoubleFromItemStack("tp-dest-x", inHand);
+            Double y = ItemStackNBT.getDoubleFromItemStack("tp-dest-y", inHand);
+            Double z = ItemStackNBT.getDoubleFromItemStack("tp-dest-z", inHand);
 
             if (x == null || y == null || z == null) {
                 return;
