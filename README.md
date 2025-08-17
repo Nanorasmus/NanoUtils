@@ -16,8 +16,9 @@ First, build the structure in game, then write some code that does the following
 - Set one of 2 variables containing the location of a target block, for use as corners of a bounding box
 - Copy a structure using the bounding box from before, and the current target block as the origin, and then save it to a file.
 Here's an example of this code using a stick as the bounding box selector, and a named piece of paper as the save item:
+
 ```Java
-import me.nanorasmus.nanoutils.FileUtils;
+import me.nanorasmus.nanoutils.data.file.JSONFileHelper;
 import me.nanorasmus.nanoutils.structures.Structure;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -73,7 +74,7 @@ public class MultiblockMaker implements Listener {
             Structure structure = new Structure(origin, pos1, pos2, false);
 
             // Save the structure
-            FileUtils.Save("Saves/" + paper.getDisplayName() + ".json", structure);
+            JSONFileHelper.Save("Saves/" + paper.getDisplayName() + ".json", structure);
         }
     }
 }

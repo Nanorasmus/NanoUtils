@@ -1,7 +1,8 @@
-package me.nanorasmus.nanoutils;
+package me.nanorasmus.nanoutils.data.file;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import me.nanorasmus.nanoutils.Main;
 import org.bukkit.Bukkit;
 
 import java.io.File;
@@ -12,7 +13,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileUtils {
+public class JSONFileHelper {
     public static Gson gson;
 
     public static String folderPath;
@@ -110,14 +111,18 @@ public class FileUtils {
             Bukkit.getLogger().info("Something went wrong with loading a file!");
             e.printStackTrace();
             return backup;
+        } catch (ClassCastException e) {
+            Bukkit.getLogger().severe("Loaded JSON from file could not be parsed to desired class!");
+            e.printStackTrace();
+            return backup;
         }
     }
 
-    public static <T> List<T> LoadAll(String path, List<T> backup) {
+    public static <T> List<T> LoadAll(String path, T backup) {
         // Get folder and check for null
         File[] files = new File(folderPath + path).listFiles();
         if (files == null) {
-            return backup;
+            return List.of(backup);
         }
 
         // Gather and parse all JSON files from folder
@@ -126,7 +131,7 @@ public class FileUtils {
         for (File file : files) {
             // Check if it is a json file
             if (!file.isFile() || !file.getName().trim().endsWith(".json")) continue;
-            output.add(Load(path + "/" + file.getName(), backup.get(0)));
+            output.add(Load(path + "/" + file.getName(), backup));
         }
 
         // Return

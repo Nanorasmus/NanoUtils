@@ -1,6 +1,7 @@
 package me.nanorasmus.nanoutils;
 
-import me.nanorasmus.nanoutils.temp.TPScroll;
+import me.nanorasmus.nanoutils.data.file.ByteFileHelper;
+import me.nanorasmus.nanoutils.data.file.JSONFileHelper;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Main extends JavaPlugin {
@@ -18,7 +19,9 @@ public final class Main extends JavaPlugin {
         plugin = this;
 
         // Initialize Utils
-        FileUtils.Init();
+        ByteFileHelper.Init();
+        JSONFileHelper.Init();
+
 
         getLogger().info("NanoUtils is set up!");
     }
