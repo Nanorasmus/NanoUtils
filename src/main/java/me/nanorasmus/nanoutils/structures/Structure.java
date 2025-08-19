@@ -86,7 +86,7 @@ public class Structure {
         });
     }
 
-    // Checks if the structure fits the criteria of other
+    /** Checks if the structure fits the criteria of other */
     public boolean containsAll(Structure other) {
 
         // For each criteria

@@ -2,12 +2,13 @@
 NanoUtils is a library plugin for minecraft used in all Nano plugins.
 However, anyone is free to use it as-is in any of their projects.
 
-NanoUtils provides methods such as:
-- Manage customizable multiblock structures (NBT not included)
-- Saving a class to a file
-- Loading a class from a file w/ a backup instance in case of an error
-- Saving primitive variables to ItemStacks
-- Loading primitive variables from Itemstacks
+NanoUtils provides tools for things such as:
+- Saving code to entities to be run when a player right clicks it
+- Rendering lines using BlockDisplays (Can also be used for full models)
+- Managing multi-block structures (NBT not included)
+- Saving a class instance to a file using either JSON or raw bytes
+- Loading a saved class instance with a backup instance in case of an error
+- Saving and loading primitive variables to and from ItemStacks and Entities
 - And more!
 
 # Tutorials

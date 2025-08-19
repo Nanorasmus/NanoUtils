@@ -1,6 +1,5 @@
 package me.nanorasmus.nanoutils.data.file;
 
-import com.google.gson.GsonBuilder;
 import me.nanorasmus.nanoutils.Main;
 import org.bukkit.Bukkit;
 
@@ -31,7 +30,7 @@ public class ByteFileHelper {
             objStream.flush();
             return byteStream.toByteArray();
         } catch (Exception err) {
-            Main.main.getLogger().severe("Failed to serialize object!");
+            Main.main.getLogger().severe("Failed to serialize object: " + obj);
             err.printStackTrace();
             return null;
         }

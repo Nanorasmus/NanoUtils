@@ -3,18 +3,12 @@ package me.nanorasmus.nanoutils.entity;
 import me.nanorasmus.nanoutils.Main;
 import me.nanorasmus.nanoutils.data.file.ByteFileHelper;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.checkerframework.checker.units.qual.A;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
@@ -48,13 +42,6 @@ public class InteractionEffects implements Listener {
                 effect.run(e.getPlayer(), e.getRightClicked());
             }
         }
-
-        // TODO: Remove this testing code
-        if (e.getPlayer().getInventory().getItemInMainHand().getType() == Material.STICK) {
-            Bukkit.broadcastMessage("Adding Effect...");
-            AddEffect(e.getRightClicked(), "pet", new TestEffect(e.getRightClicked()));
-            Bukkit.broadcastMessage("Effect added! Entities with effects: " + effects.size() + ", effects on this entity: " + GetEffects(e.getRightClicked()).size());
-        }
     }
 
     private static void PruneEffects() {
@@ -78,7 +65,7 @@ public class InteractionEffects implements Listener {
     }
 
     public static boolean HasEffect(Entity entity) {
-        return effects.containsKey(entity.getUniqueId());
+        return effects.get(entity.getUniqueId()) != null;
     }
 
     public static boolean HasEffect(Entity entity, String effectId) {
@@ -86,7 +73,7 @@ public class InteractionEffects implements Listener {
             return false;
         }
 
-        return effects.get(entity.getUniqueId()).containsKey(effectId);
+        return effects.get(entity.getUniqueId()).get(effectId) != null;
     }
 
     public static void AddEffect(Entity entity, String id, InteractionEffect runnable) {
