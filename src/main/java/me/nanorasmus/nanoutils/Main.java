@@ -2,6 +2,7 @@ package me.nanorasmus.nanoutils;
 
 import me.nanorasmus.nanoutils.data.file.ByteFileHelper;
 import me.nanorasmus.nanoutils.data.file.JSONFileHelper;
+import me.nanorasmus.nanoutils.entity.InteractionEffects;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Main extends JavaPlugin {
@@ -9,6 +10,7 @@ public final class Main extends JavaPlugin {
     public static Main main;
     public static JavaPlugin plugin;
 
+    InteractionEffects interactionEffects;
 
     @Override
     public void onEnable() {
@@ -18,10 +20,13 @@ public final class Main extends JavaPlugin {
         main = this;
         plugin = this;
 
-        // Initialize Utils
+        // Initialize File helpers
         ByteFileHelper.Init();
         JSONFileHelper.Init();
 
+
+        // Interaction helpers
+        interactionEffects = new InteractionEffects(this);
 
         getLogger().info("NanoUtils is set up!");
     }
@@ -29,6 +34,6 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        InteractionEffects.SaveEffects();
     }
 }

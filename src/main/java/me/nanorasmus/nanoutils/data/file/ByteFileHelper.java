@@ -32,6 +32,7 @@ public class ByteFileHelper {
             return byteStream.toByteArray();
         } catch (Exception err) {
             Main.main.getLogger().severe("Failed to serialize object!");
+            err.printStackTrace();
             return null;
         }
     }
@@ -44,6 +45,7 @@ public class ByteFileHelper {
             return obj.readObject();
         }  catch (Exception err) {
             Main.main.getLogger().severe("Failed to deserialize object!");
+            err.printStackTrace();
             return null;
         }
     }
