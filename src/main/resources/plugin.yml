@@ -2,3 +2,5 @@ name: NanoUtils
 version: '${project.version}'
 main: me.nanorasmus.nanoutils.Main
 api-version: '1.21'
+libraries:
+  - com.esotericsoftware.kryo:kryo5:5.6.2
