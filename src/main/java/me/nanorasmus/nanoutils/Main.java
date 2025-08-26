@@ -4,9 +4,11 @@ import com.esotericsoftware.kryo.kryo5.Kryo;
 import com.esotericsoftware.kryo.kryo5.io.Input;
 import com.esotericsoftware.kryo.kryo5.io.Output;
 import com.esotericsoftware.kryo.kryo5.serializers.DefaultSerializers;
+import me.nanorasmus.nanoutils.book.BookManager;
 import me.nanorasmus.nanoutils.data.SerializationHelper;
 import me.nanorasmus.nanoutils.data.file.ByteFileHelper;
 import me.nanorasmus.nanoutils.data.file.JSONFileHelper;
+import me.nanorasmus.nanoutils.entity.DamageEffects;
 import me.nanorasmus.nanoutils.entity.InteractionEffects;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -22,6 +24,7 @@ public final class Main extends JavaPlugin {
     public static JavaPlugin plugin;
 
     InteractionEffects interactionEffects;
+    DamageEffects damageEffects;
 
     @Override
     public void onEnable() {
@@ -41,6 +44,8 @@ public final class Main extends JavaPlugin {
 
         // Interaction helpers
         interactionEffects = new InteractionEffects(this);
+        damageEffects = new DamageEffects(this);
+
 
         getLogger().info("NanoUtils is set up!");
     }
