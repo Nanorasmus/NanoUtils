@@ -1,37 +1,177 @@
 package me.nanorasmus.nanoutils.data.nbt;
 
 import me.nanorasmus.nanoutils.Main;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Entity;
-import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.metadata.MetadataValue;
+import org.bukkit.persistence.PersistentDataType;
 
-import java.util.List;
+import javax.annotation.Nullable;
 
 public class EntityNBT {
-    /**
-     * Saves data to an entity,
-     * Does NOT persist on server restart
-     * @param key The key to store the data under
-     * @param value The value to store
-     * @param entity The entity to store the data to
-     * @return The entity the data was stored in
-     */
-    public static Entity saveToEntity(String key, Object value, Entity entity) {
-        entity.setMetadata("Nano-" + key, new FixedMetadataValue(Main.plugin, value));
+    private static NamespacedKey makeKey(String suffix) {
+        return new NamespacedKey(Main.plugin, "Nano-" + suffix);
+    }
+
+    private static <P, C> Entity saveToEntity(String key, C value, Entity entity, PersistentDataType<P, C> dataType) {
+        NamespacedKey namespacedKey = makeKey(key);
+
+        entity.getPersistentDataContainer().set(namespacedKey, dataType, value);
+
         return entity;
     }
 
+    private static <P, C> C getFromEntity(String key, Entity entity, PersistentDataType<P, C> dataType) {
+        NamespacedKey namespacedKey = makeKey(key);
+
+        return entity.getPersistentDataContainer().get(namespacedKey, dataType);
+    }
+
     /**
-     * Retrieves data stored in an entity
-     * @param key the key the data was stored under
-     * @param entity the ItemStack the data was stored in
-     * @return the stored data
+     * Stores a Boolean in an Entity
+     * @param key the key to store the data under
+     * @param value the Boolean to store
+     * @param entity the Entity to store the data in
+     * @return the Entity the data was stored in
      */
-    public static Object getFromEntity(String key, Entity entity) {
-        List<MetadataValue> value = entity.getMetadata("Nano-" + key);
+    public static Entity saveToEntity(String key, Boolean value, Entity entity) {
+        return saveToEntity(key, value, entity, PersistentDataType.BOOLEAN);
+    }
 
-        if (value.isEmpty()) return null;
 
-        return value.get(0).value();
+    /**
+     * Stores a String in an Entity
+     * @param key the key to store the data under
+     * @param value the String to store
+     * @param entity the Entity to store the data in
+     * @return the Entity the data was stored in
+     */
+    public static Entity saveToEntity(String key, String value, Entity entity) {
+        return saveToEntity(key, value, entity, PersistentDataType.STRING);
+    }
+
+    /**
+     * Stores a Double in an Entity
+     * @param key the key to store the data under
+     * @param value the Double to store
+     * @param entity the Entity to store the data in
+     * @return the Entity the data was stored in
+     */
+    public static Entity saveToEntity(String key, Double value, Entity entity) {
+        return saveToEntity(key, value, entity, PersistentDataType.DOUBLE);
+    }
+
+    /**
+     * Stores an Integer in an Entity
+     * @param key the key to store the data under
+     * @param value the Integer to store
+     * @param entity the Entity to store the data in
+     * @return the Entity the data was stored in
+     */
+    public static Entity saveToEntity(String key, Integer value, Entity entity) {
+        return saveToEntity(key, value, entity, PersistentDataType.INTEGER);
+    }
+
+    /**
+     * Stores an int array in an Entity
+     * @param key the key to store the data under
+     * @param value the int array to store
+     * @param entity the Entity to store the data in
+     * @return the Entity the data was stored in
+     */
+    public static Entity saveToEntity(String key, int[] value, Entity entity) {
+        return saveToEntity(key, value, entity, PersistentDataType.INTEGER_ARRAY);
+    }
+
+    /**
+     * Stores a byte array in an Entity
+     * @param key the key to store the data under
+     * @param value the byte array to store
+     * @param entity the Entity to store the data in
+     * @return the Entity the data was stored in
+     */
+    public static Entity saveToEntity(String key, byte[] value, Entity entity) {
+        return saveToEntity(key, value, entity, PersistentDataType.BYTE_ARRAY);
+    }
+
+
+
+    /**
+     * Retrieves data stored in an Entity as a Boolean
+     * @param key the key the data was stored under
+     * @param entity the Entity the data was stored in
+     * @return the stored Boolean
+     */
+    @Nullable
+    public static Boolean getBooleanFromEntity(String key, Entity entity) {
+        return getFromEntity(key, entity, PersistentDataType.BOOLEAN);
+    }
+
+
+    /**
+     * Retrieves data stored in an Entity as a String
+     * @param key the key the data was stored under
+     * @param entity the Entity the data was stored in
+     * @return the stored String
+     */
+    @Nullable
+    public static String getStringFromEntity(String key, Entity entity) {
+        return getFromEntity(key, entity, PersistentDataType.STRING);
+    }
+
+
+    /**
+     * Retrieves data stored in an Entity as a Double
+     * @param key the key the data was stored under
+     * @param entity the Entity the data was stored in
+     * @return the stored Double
+     */
+    @Nullable
+    public static Double getDoubleFromEntity(String key, Entity entity) {
+        return getFromEntity(key, entity, PersistentDataType.DOUBLE);
+    }
+
+    /**
+     * Retrieves data stored in an Entity as an Integer
+     * @param key the key the data was stored under
+     * @param entity the Entity the data was stored in
+     * @return the stored Integer
+     */
+    @Nullable
+    public static Integer getIntFromEntity(String key, Entity entity) {
+        return getFromEntity(key, entity, PersistentDataType.INTEGER);
+    }
+
+    /**
+     * Retrieves data stored in an Entity as an int array
+     * @param key the key the data was stored under
+     * @param entity the Entity the data was stored in
+     * @return the stored int array
+     */
+    @Nullable
+    public static int[] getIntArrayFromEntity(String key, Entity entity) {
+        return getFromEntity(key, entity, PersistentDataType.INTEGER_ARRAY);
+    }
+
+    /**
+     * Retrieves data stored in an Entity as a byte array
+     * @param key the key the data was stored under
+     * @param entity the Entity the data was stored in
+     * @return the stored byte array
+     */
+    @Nullable
+    public static byte[] getByteArrayFromEntity(String key, Entity entity) {
+        return getFromEntity(key, entity, PersistentDataType.BYTE_ARRAY);
+    }
+
+    /**
+     * Checks if an Entity contains any data under the specified key
+     * @param key the key to check for data
+     * @param entity the Entity to check for data inside of
+     * @return true if there is data, false if not.
+     */
+    public static boolean EntityHasDataUnderKey(String key, Entity entity) {
+        NamespacedKey namespacedKey = makeKey(key);
+
+        return entity.getPersistentDataContainer().has(namespacedKey);
     }
 }
