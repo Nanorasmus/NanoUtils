@@ -34,22 +34,23 @@ public class ByteFileHelper {
         return file.exists();
     }
 
-    public static void Save(String path, Object content) {
+    public static void Save(String path, Object content, Kryo kryo) {
         File file = new File(folderPath + path);
         file.getParentFile().mkdirs();
         try {
             file.delete();
 
-            byte[] bytes = SerializationHelper.serialize(content);
+            byte[] bytes = SerializationHelper.serialize(content, kryo);
 
             if (bytes != null) {
+                Bukkit.getLogger().info("Byte count: " + bytes.length);
                 Files.write(file.toPath(), bytes, StandardOpenOption.CREATE, StandardOpenOption.WRITE);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-    public static void SoftSave(String path, Object content) {
+    public static void SoftSave(String path, Object content, Kryo kryo) {
         File file = new File(folderPath + path);
         if (file.exists()) {
             return;
@@ -58,7 +59,7 @@ public class ByteFileHelper {
         try {
             file.delete();
 
-            byte[] bytes = SerializationHelper.serialize(content);
+            byte[] bytes = SerializationHelper.serialize(content, kryo);
 
             if (bytes != null) {
                 Files.write(file.toPath(), bytes, StandardOpenOption.CREATE, StandardOpenOption.WRITE);
@@ -68,12 +69,10 @@ public class ByteFileHelper {
         }
     }
 
-    public static <T> T Load(String path, T backup) {
+    public static <T> T Load(String path, T backup, Kryo kryo) {
         File file = new File(folderPath + path);
         try {
-            Object obj = SerializationHelper.deserialize(Files.readAllBytes(Path.of(folderPath + path)), backup.getClass());
-
-            return (T) SerializationHelper.deserialize(Files.readAllBytes(Path.of(folderPath + path)), backup.getClass());
+            return (T) SerializationHelper.deserialize(Files.readAllBytes(Path.of(folderPath + path)), backup.getClass(), kryo);
         } catch (IOException e) {
             Bukkit.getLogger().severe("Something went wrong with loading a file!");
             e.printStackTrace();
@@ -85,7 +84,7 @@ public class ByteFileHelper {
         }
     }
 
-    public static <T> List<T> LoadAll(String path, T backup) {
+    public static <T> List<T> LoadAll(String path, T backup, Kryo kryo) {
         // Get folder and check for null
         File[] files = new File(folderPath + path).listFiles();
         if (files == null) {
@@ -98,7 +97,7 @@ public class ByteFileHelper {
         for (File file : files) {
             // Check if it is a json file
             if (!file.isFile()) continue;
-            output.add(Load(path + "/" + file.getName(), backup));
+            output.add(Load(path + "/" + file.getName(), backup, kryo));
         }
 
         // Return

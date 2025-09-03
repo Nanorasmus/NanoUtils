@@ -1,6 +1,7 @@
 package me.nanorasmus.nanoutils.entity;
 
 import me.nanorasmus.nanoutils.Main;
+import me.nanorasmus.nanoutils.data.SerializationHelper;
 import me.nanorasmus.nanoutils.data.file.ByteFileHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
@@ -26,7 +27,7 @@ public class DamageEffects implements Listener {
         main.getServer().getPluginManager().registerEvents(this, main);
 
         if (ByteFileHelper.Exists(FILE_PATH)) {
-            effects = ByteFileHelper.Load(FILE_PATH, effects);
+            effects = ByteFileHelper.Load(FILE_PATH, effects, SerializationHelper.internalKryo);
             main.getLogger().info("Loaded " + effects.size() + " damage effects!");
         }
     }
@@ -57,7 +58,7 @@ public class DamageEffects implements Listener {
     public static void SaveEffects() {
         if (!effects.isEmpty()) {
             PruneEffects();
-            ByteFileHelper.Save(FILE_PATH, effects);
+            ByteFileHelper.Save(FILE_PATH, effects, SerializationHelper.internalKryo);
         }
     }
 

@@ -11,19 +11,18 @@ import java.io.*;
 import java.util.UUID;
 
 public class SerializationHelper {
-    static Kryo kryo;
+    public static Kryo internalKryo;
 
     public static void Init() {
         // Initialize Kryo
-        kryo = new Kryo();
-        kryo.setRegistrationRequired(false);
-        kryo.setReferences(true);
-        kryo.register(UUID.class, new DefaultSerializers.UUIDSerializer());
+        internalKryo = new Kryo();
+        internalKryo.setRegistrationRequired(false);
+        internalKryo.setReferences(true);
+        internalKryo.register(UUID.class, new DefaultSerializers.UUIDSerializer());
     }
 
-
     @Nullable
-    public static byte[] serialize(Object obj) {
+    public static byte[] serialize(Object obj, Kryo kryo) {
         try {
             Output output = new Output(1024, -1);
             kryo.writeObject(output, obj);
@@ -52,7 +51,7 @@ public class SerializationHelper {
     }
 
     @Nullable
-    public static <T> T deserialize(byte[] bytes, Class<T> type) {
+    public static <T> T deserialize(byte[] bytes, Class<T> type, Kryo kryo) {
         try {
             Input input = new Input(bytes);
             return kryo.readObject(input, type);
