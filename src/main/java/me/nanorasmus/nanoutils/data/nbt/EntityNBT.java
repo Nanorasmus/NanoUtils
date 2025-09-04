@@ -8,22 +8,15 @@ import org.bukkit.persistence.PersistentDataType;
 import javax.annotation.Nullable;
 
 public class EntityNBT {
-    private static NamespacedKey makeKey(String suffix) {
-        return new NamespacedKey(Main.plugin, "Nano-" + suffix);
-    }
+    private static <P, C> Entity saveToEntity(NamespacedKey key, C value, Entity entity, PersistentDataType<P, C> dataType) {
 
-    private static <P, C> Entity saveToEntity(String key, C value, Entity entity, PersistentDataType<P, C> dataType) {
-        NamespacedKey namespacedKey = makeKey(key);
-
-        entity.getPersistentDataContainer().set(namespacedKey, dataType, value);
+        entity.getPersistentDataContainer().set(key, dataType, value);
 
         return entity;
     }
 
-    private static <P, C> C getFromEntity(String key, Entity entity, PersistentDataType<P, C> dataType) {
-        NamespacedKey namespacedKey = makeKey(key);
-
-        return entity.getPersistentDataContainer().get(namespacedKey, dataType);
+    private static <P, C> C getFromEntity(NamespacedKey key, Entity entity, PersistentDataType<P, C> dataType) {
+        return entity.getPersistentDataContainer().get(key, dataType);
     }
 
     /**
@@ -33,7 +26,7 @@ public class EntityNBT {
      * @param entity the Entity to store the data in
      * @return the Entity the data was stored in
      */
-    public static Entity saveToEntity(String key, Boolean value, Entity entity) {
+    public static Entity saveToEntity(NamespacedKey key, Boolean value, Entity entity) {
         return saveToEntity(key, value, entity, PersistentDataType.BOOLEAN);
     }
 
@@ -45,7 +38,7 @@ public class EntityNBT {
      * @param entity the Entity to store the data in
      * @return the Entity the data was stored in
      */
-    public static Entity saveToEntity(String key, String value, Entity entity) {
+    public static Entity saveToEntity(NamespacedKey key, String value, Entity entity) {
         return saveToEntity(key, value, entity, PersistentDataType.STRING);
     }
 
@@ -56,7 +49,7 @@ public class EntityNBT {
      * @param entity the Entity to store the data in
      * @return the Entity the data was stored in
      */
-    public static Entity saveToEntity(String key, Double value, Entity entity) {
+    public static Entity saveToEntity(NamespacedKey key, Double value, Entity entity) {
         return saveToEntity(key, value, entity, PersistentDataType.DOUBLE);
     }
 
@@ -67,7 +60,7 @@ public class EntityNBT {
      * @param entity the Entity to store the data in
      * @return the Entity the data was stored in
      */
-    public static Entity saveToEntity(String key, Integer value, Entity entity) {
+    public static Entity saveToEntity(NamespacedKey key, Integer value, Entity entity) {
         return saveToEntity(key, value, entity, PersistentDataType.INTEGER);
     }
 
@@ -78,7 +71,7 @@ public class EntityNBT {
      * @param entity the Entity to store the data in
      * @return the Entity the data was stored in
      */
-    public static Entity saveToEntity(String key, int[] value, Entity entity) {
+    public static Entity saveToEntity(NamespacedKey key, int[] value, Entity entity) {
         return saveToEntity(key, value, entity, PersistentDataType.INTEGER_ARRAY);
     }
 
@@ -89,7 +82,7 @@ public class EntityNBT {
      * @param entity the Entity to store the data in
      * @return the Entity the data was stored in
      */
-    public static Entity saveToEntity(String key, byte[] value, Entity entity) {
+    public static Entity saveToEntity(NamespacedKey key, byte[] value, Entity entity) {
         return saveToEntity(key, value, entity, PersistentDataType.BYTE_ARRAY);
     }
 
@@ -102,7 +95,7 @@ public class EntityNBT {
      * @return the stored Boolean
      */
     @Nullable
-    public static Boolean getBooleanFromEntity(String key, Entity entity) {
+    public static Boolean getBooleanFromEntity(NamespacedKey key, Entity entity) {
         return getFromEntity(key, entity, PersistentDataType.BOOLEAN);
     }
 
@@ -114,7 +107,7 @@ public class EntityNBT {
      * @return the stored String
      */
     @Nullable
-    public static String getStringFromEntity(String key, Entity entity) {
+    public static String getStringFromEntity(NamespacedKey key, Entity entity) {
         return getFromEntity(key, entity, PersistentDataType.STRING);
     }
 
@@ -126,7 +119,7 @@ public class EntityNBT {
      * @return the stored Double
      */
     @Nullable
-    public static Double getDoubleFromEntity(String key, Entity entity) {
+    public static Double getDoubleFromEntity(NamespacedKey key, Entity entity) {
         return getFromEntity(key, entity, PersistentDataType.DOUBLE);
     }
 
@@ -137,7 +130,7 @@ public class EntityNBT {
      * @return the stored Integer
      */
     @Nullable
-    public static Integer getIntFromEntity(String key, Entity entity) {
+    public static Integer getIntFromEntity(NamespacedKey key, Entity entity) {
         return getFromEntity(key, entity, PersistentDataType.INTEGER);
     }
 
@@ -148,7 +141,7 @@ public class EntityNBT {
      * @return the stored int array
      */
     @Nullable
-    public static int[] getIntArrayFromEntity(String key, Entity entity) {
+    public static int[] getIntArrayFromEntity(NamespacedKey key, Entity entity) {
         return getFromEntity(key, entity, PersistentDataType.INTEGER_ARRAY);
     }
 
@@ -159,7 +152,7 @@ public class EntityNBT {
      * @return the stored byte array
      */
     @Nullable
-    public static byte[] getByteArrayFromEntity(String key, Entity entity) {
+    public static byte[] getByteArrayFromEntity(NamespacedKey key, Entity entity) {
         return getFromEntity(key, entity, PersistentDataType.BYTE_ARRAY);
     }
 
@@ -169,9 +162,7 @@ public class EntityNBT {
      * @param entity the Entity to check for data inside of
      * @return true if there is data, false if not.
      */
-    public static boolean EntityHasDataUnderKey(String key, Entity entity) {
-        NamespacedKey namespacedKey = makeKey(key);
-
-        return entity.getPersistentDataContainer().has(namespacedKey);
+    public static boolean EntityHasDataUnderKey(NamespacedKey key, Entity entity) {
+        return entity.getPersistentDataContainer().has(key);
     }
 }

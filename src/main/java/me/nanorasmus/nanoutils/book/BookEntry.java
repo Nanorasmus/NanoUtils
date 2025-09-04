@@ -3,6 +3,7 @@ package me.nanorasmus.nanoutils.book;
 import me.nanorasmus.nanoutils.data.nbt.EntityNBT;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.advancement.Advancement;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -18,7 +19,7 @@ public class BookEntry {
     ArrayList<BookPage> pages = new ArrayList<>();
 
     @Nullable Advancement requiredAdvancement;
-    ArrayList<String> requiredDataKeys = new ArrayList<>();
+    ArrayList<NamespacedKey> requiredDataKeys = new ArrayList<>();
 
     public BookEntry(String title, BookPage... pages) {
         this.title = title;
@@ -30,12 +31,12 @@ public class BookEntry {
         this.requiredAdvancement = requiredAdvancement;
     }
 
-    public BookEntry(String title, String requiredDataKey, BookPage... pages) {
+    public BookEntry(String title, NamespacedKey requiredDataKey, BookPage... pages) {
         this(title, pages);
         addRequiredDataKeys(requiredDataKey);
     }
 
-    public BookEntry(String title, Advancement requiredAdvancement, String requiredDataKey, BookPage... pages) {
+    public BookEntry(String title, Advancement requiredAdvancement, NamespacedKey requiredDataKey, BookPage... pages) {
         this(title, requiredAdvancement, pages);
         addRequiredDataKeys(requiredDataKey);
     }
@@ -44,7 +45,7 @@ public class BookEntry {
         this.pages.addAll(List.of(newPages));
     }
 
-    public void addRequiredDataKeys(String... newRequirements) {
+    public void addRequiredDataKeys(NamespacedKey... newRequirements) {
         requiredDataKeys.addAll(List.of(newRequirements));
     }
 
@@ -53,7 +54,7 @@ public class BookEntry {
             return false;
         }
 
-        for (String requiredDataKey : requiredDataKeys) {
+        for (NamespacedKey requiredDataKey : requiredDataKeys) {
             Boolean meetsRequirement = EntityNBT.getBooleanFromEntity(requiredDataKey, player);
             if (meetsRequirement == null || !meetsRequirement) {
                 return false;

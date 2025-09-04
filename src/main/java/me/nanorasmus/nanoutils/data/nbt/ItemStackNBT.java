@@ -9,13 +9,7 @@ import org.bukkit.persistence.PersistentDataType;
 import javax.annotation.Nullable;
 
 public class ItemStackNBT {
-    private static NamespacedKey makeKey(String suffix) {
-        return new NamespacedKey(Main.plugin, "Nano-" + suffix);
-    }
-
-    private static <P, C> ItemStack saveToItemStack(String key, C value, ItemStack itemStack, PersistentDataType<P, C> dataType) {
-        NamespacedKey namespacedKey = makeKey(key);
-
+    private static <P, C> ItemStack saveToItemStack(NamespacedKey key, C value, ItemStack itemStack, PersistentDataType<P, C> dataType) {
         ItemMeta meta = itemStack.getItemMeta();
 
         if (meta == null) {
@@ -26,21 +20,19 @@ public class ItemStackNBT {
             }
         }
 
-        meta.getPersistentDataContainer().set(namespacedKey, dataType, value);
+        meta.getPersistentDataContainer().set(key, dataType, value);
 
         itemStack.setItemMeta(meta);
 
         return itemStack;
     }
 
-    private static <P, C> C getFromItemStack(String key, ItemStack itemStack, PersistentDataType<P, C> dataType) {
-        NamespacedKey namespacedKey = makeKey(key);
-
+    private static <P, C> C getFromItemStack(NamespacedKey key, ItemStack itemStack, PersistentDataType<P, C> dataType) {
         ItemMeta meta = itemStack.getItemMeta();
 
         if (meta == null) return null;
 
-        return meta.getPersistentDataContainer().get(namespacedKey, dataType);
+        return meta.getPersistentDataContainer().get(key, dataType);
     }
 
     /**
@@ -50,7 +42,7 @@ public class ItemStackNBT {
      * @param itemStack the ItemStack to store the data in
      * @return the ItemStack the data was stored in
      */
-    public static ItemStack saveToItemStack(String key, Boolean value, ItemStack itemStack) {
+    public static ItemStack saveToItemStack(NamespacedKey key, Boolean value, ItemStack itemStack) {
         return saveToItemStack(key, value, itemStack, PersistentDataType.BOOLEAN);
     }
 
@@ -62,7 +54,7 @@ public class ItemStackNBT {
      * @param itemStack the ItemStack to store the data in
      * @return the ItemStack the data was stored in
      */
-    public static ItemStack saveToItemStack(String key, String value, ItemStack itemStack) {
+    public static ItemStack saveToItemStack(NamespacedKey key, String value, ItemStack itemStack) {
         return saveToItemStack(key, value, itemStack, PersistentDataType.STRING);
     }
 
@@ -73,7 +65,7 @@ public class ItemStackNBT {
      * @param itemStack the ItemStack to store the data in
      * @return the ItemStack the data was stored in
      */
-    public static ItemStack saveToItemStack(String key, Double value, ItemStack itemStack) {
+    public static ItemStack saveToItemStack(NamespacedKey key, Double value, ItemStack itemStack) {
         return saveToItemStack(key, value, itemStack, PersistentDataType.DOUBLE);
     }
 
@@ -84,7 +76,7 @@ public class ItemStackNBT {
      * @param itemStack the ItemStack to store the data in
      * @return the ItemStack the data was stored in
      */
-    public static ItemStack saveToItemStack(String key, Integer value, ItemStack itemStack) {
+    public static ItemStack saveToItemStack(NamespacedKey key, Integer value, ItemStack itemStack) {
         return saveToItemStack(key, value, itemStack, PersistentDataType.INTEGER);
     }
 
@@ -95,7 +87,7 @@ public class ItemStackNBT {
      * @param itemStack the ItemStack to store the data in
      * @return the ItemStack the data was stored in
      */
-    public static ItemStack saveToItemStack(String key, int[] value, ItemStack itemStack) {
+    public static ItemStack saveToItemStack(NamespacedKey key, int[] value, ItemStack itemStack) {
         return saveToItemStack(key, value, itemStack, PersistentDataType.INTEGER_ARRAY);
     }
 
@@ -106,7 +98,7 @@ public class ItemStackNBT {
      * @param itemStack the ItemStack to store the data in
      * @return the ItemStack the data was stored in
      */
-    public static ItemStack saveToItemStack(String key, byte[] value, ItemStack itemStack) {
+    public static ItemStack saveToItemStack(NamespacedKey key, byte[] value, ItemStack itemStack) {
         return saveToItemStack(key, value, itemStack, PersistentDataType.BYTE_ARRAY);
     }
 
@@ -119,7 +111,7 @@ public class ItemStackNBT {
      * @return the stored Boolean
      */
     @Nullable
-    public static Boolean getBooleanFromItemStack(String key, ItemStack itemStack) {
+    public static Boolean getBooleanFromItemStack(NamespacedKey key, ItemStack itemStack) {
         return getFromItemStack(key, itemStack, PersistentDataType.BOOLEAN);
     }
 
@@ -131,7 +123,7 @@ public class ItemStackNBT {
      * @return the stored String
      */
     @Nullable
-    public static String getStringFromItemStack(String key, ItemStack itemStack) {
+    public static String getStringFromItemStack(NamespacedKey key, ItemStack itemStack) {
         return getFromItemStack(key, itemStack, PersistentDataType.STRING);
     }
 
@@ -143,7 +135,7 @@ public class ItemStackNBT {
      * @return the stored Double
      */
     @Nullable
-    public static Double getDoubleFromItemStack(String key, ItemStack itemStack) {
+    public static Double getDoubleFromItemStack(NamespacedKey key, ItemStack itemStack) {
         return getFromItemStack(key, itemStack, PersistentDataType.DOUBLE);
     }
 
@@ -154,7 +146,7 @@ public class ItemStackNBT {
      * @return the stored Integer
      */
     @Nullable
-    public static Integer getIntFromItemStack(String key, ItemStack itemStack) {
+    public static Integer getIntFromItemStack(NamespacedKey key, ItemStack itemStack) {
         return getFromItemStack(key, itemStack, PersistentDataType.INTEGER);
     }
 
@@ -165,7 +157,7 @@ public class ItemStackNBT {
      * @return the stored int array
      */
     @Nullable
-    public static int[] getIntArrayFromItemStack(String key, ItemStack itemStack) {
+    public static int[] getIntArrayFromItemStack(NamespacedKey key, ItemStack itemStack) {
         return getFromItemStack(key, itemStack, PersistentDataType.INTEGER_ARRAY);
     }
 
@@ -176,7 +168,7 @@ public class ItemStackNBT {
      * @return the stored byte array
      */
     @Nullable
-    public static byte[] getByteArrayFromItemStack(String key, ItemStack itemStack) {
+    public static byte[] getByteArrayFromItemStack(NamespacedKey key, ItemStack itemStack) {
         return getFromItemStack(key, itemStack, PersistentDataType.BYTE_ARRAY);
     }
 
@@ -186,13 +178,11 @@ public class ItemStackNBT {
      * @param itemStack the ItemStack to check for data inside of
      * @return true if there is data, false if not.
      */
-    public static boolean ItemStackHasDataUnderKey(String key, ItemStack itemStack) {
-        NamespacedKey namespacedKey = makeKey(key);
-
+    public static boolean ItemStackHasDataUnderKey(NamespacedKey key, ItemStack itemStack) {
         ItemMeta meta = itemStack.getItemMeta();
 
         if (meta == null) return false;
 
-        return meta.getPersistentDataContainer().has(namespacedKey);
+        return meta.getPersistentDataContainer().has(key);
     }
 }
